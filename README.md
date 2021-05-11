@@ -29,7 +29,7 @@ You can register to the following events.
 
 ```js
 IndeterminateBar.on('start', function() {
-	console.log('the progress is started');
+  console.log('the progress is started');
 })
 ```
 
@@ -37,7 +37,7 @@ IndeterminateBar.on('start', function() {
 
 ```js
 IndeterminateBar.on('done', function() {
-	console.log('the progress bar has been stopped');
+  console.log('the progress bar has been stopped');
 })
 ```
 
@@ -45,7 +45,7 @@ IndeterminateBar.on('done', function() {
 
 ```js
 IndeterminateBar.on('indeterminate', function() {
-	console.log('the progress bar changed to indetermined');
+  console.log('the progress bar changed to indetermined');
 })
 ```
 
@@ -57,7 +57,7 @@ Specify the duration in seconds for the loading bar.
 
 ```js
 IndeterminateBar.configure({
-	duration: 60
+  duration: 60
 })
 ```
 
@@ -67,6 +67,6 @@ Specify the progress bar container.
 
 ```js
 IndeterminateBar.configure({
-	parent: '#my-container'
+  parent: '#my-container'
 })
 ```
