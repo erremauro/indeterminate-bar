@@ -35,6 +35,8 @@
 	////////////////////////////////////////////////////////////////////////////
 
 	function onStart() {
+		if ( IndeterminateBar.isStarted ) return
+
 		IndeterminateBar.start();
 		Stopwatch.start();
 
@@ -43,6 +45,8 @@
 	}
 
 	function onStop() {
+		if ( !IndeterminateBar.isStarted ) return
+			
 		IndeterminateBar.done();
 		updateElapsedLabel();
 		clearInterval( timerIntervalID );
