@@ -17,7 +17,7 @@
 	    };
 	}
 
-	// setInterval ID use to check on the loading progress percent
+	// setInterval ID used to check on the loading progress percent
 	var progressIntervalID = null;
 
 	// Prepares the HTML dom elements for the progress bar
