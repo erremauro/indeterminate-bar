@@ -59,7 +59,7 @@
 		},
 		callEvents: function( eventName ) {
 			if ( !EventManager.exists( eventName ) ) return
-			EventManager.events[ eventName ].forEach( event => event() )
+			EventManager.events[ eventName ].forEach( function(event) { event() } )
 		},
 		register: function( eventName, callback ) {
 			if ( !EventManager.exists( eventName ) ) return
