@@ -16,15 +16,15 @@
 	});
 
 	IndeterminateBar.on('start', function() {
-		setProgressLabel( 'Elaborazione in corso...' )
+		setProgressLabel( 'Processing file...' )
 	})
 
 	IndeterminateBar.on('change', function() {
-		setProgressLabel('Completamento...')
+		setProgressLabel('Completing, please wait...')
 	})
 
 	IndeterminateBar.on('done', function() {
-		setProgressLabel( 'Completato.' )
+		setProgressLabel( 'Completed.' )
 	})
 
 	// Listen to button click and input change events
@@ -60,8 +60,8 @@
 
 	function updateElapsedLabel() {
 		elapsedLabel.innerHTML = IndeterminateBar.isStarted
-			? 'Tempo trascorso: ' + Stopwatch.getElapsedTime()
-			: 'Tempo totale: ' + Stopwatch.getTime()
+			? 'Elapsed Time: ' + Stopwatch.getElapsedTime()
+			: 'Done in ' + Stopwatch.getTime()
 	}
 
 	function setProgressLabel(message) {
