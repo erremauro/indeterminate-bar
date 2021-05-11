@@ -1,0 +1,50 @@
+.slider{
+	border-radius: 4px;
+  position:relative;
+  width: 100%;
+  height:8px;
+  overflow-x: hidden;
+}
+
+.line{
+  position:absolute;
+  opacity: 0.4;
+  background: #65ca02;
+  width:150%;
+  height:8px;
+}
+
+.subline {
+  position:absolute;
+  background:#65ca02;
+  height:8px;
+  box-shadow: 0 0 10px #65ca02, 0 0 5px #65ca02;
+  transition: width 5s;
+}
+
+.load {
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+}
+
+.inc {
+	animation: increase 2s infinite;
+}
+.dec {
+	animation: decrease 2s 0.5s infinite;
+}
+
+@keyframes load {
+ from { left: 0%; width: 0%; }
+ to { left: 0%; width: 100%;}
+}
+
+@keyframes increase {
+ from { left: -5%; width: 5%; }
+ to { left: 130%; width: 100%;}
+}
+
+@keyframes decrease {
+ from { left: -80%; width: 80%; }
+ to { left: 110%; width: 10%;}
+}
