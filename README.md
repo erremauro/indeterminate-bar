@@ -8,8 +8,8 @@ indeterminate progress once it reaches the 100%.
 Add [indeterminatebar.js]() and [indeterminatebar.css]() to your project
 
 ```html
-<script src='nprogress.js'></script>
-<link rel='stylesheet' href='nprogress.css'/>
+<script src='indeterminatebar.js'></script>
+<link rel='stylesheet' href='indeterminatebar.css'/>
 ```
 
 ## Usage
