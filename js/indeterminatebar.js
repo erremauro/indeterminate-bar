@@ -126,7 +126,7 @@
 	 * @type {Object}
 	 */
 	var IndeterminateBar = {
-		version: '0.1.0',
+		version: '0.1.1',
 		isStarted: false,
 		isIndeterminate: false,
 		config: {
@@ -148,6 +148,7 @@
 		if (IndeterminateBar.isStarted) {
 			subline.style.animation = 'load ' + IndeterminateBar.config.duration + 's'
 			IndeterminateBar.isIndeterminate = false
+			EventManager.callEvents( 'start' )
 		}
 
 		updateComponentColor(IndeterminateBar.config.color);
