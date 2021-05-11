@@ -19,7 +19,7 @@
 		setProgressLabel( 'Elaborazione in corso...' )
 	})
 
-	IndeterminateBar.on('indeterminate', function() {
+	IndeterminateBar.on('change', function() {
 		setProgressLabel('Completamento...')
 	})
 
@@ -55,7 +55,9 @@
 	}
 
 	function updateElapsedLabel() {
-		elapsedLabel.innerHTML = 'Tempo trascorso: ' + Stopwatch.getTime()
+		elapsedLabel.innerHTML = IndeterminateBar.isStarted
+			? 'Tempo trascorso: ' + Stopwatch.getElapsedTime()
+			: 'Tempo totale: ' + Stopwatch.getTime()
 	}
 
 	function setProgressLabel(message) {
