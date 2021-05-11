@@ -35,11 +35,14 @@
 			);
 		},
 		getTime: function() {
-			Stopwatch._update();
 			var minutes = ( '0' + Stopwatch._diff.getMinutes() ).slice(-2)
 			var seconds = ( '0' + Stopwatch._diff.getSeconds() ).slice(-2)
 			return  minutes + ':' + seconds + '';
 		},
+		getElapsedTime: function() {
+			Stopwatch._update()
+			return Stopwatch.getTime()
+		}
 	}
 
 	return Stopwatch
