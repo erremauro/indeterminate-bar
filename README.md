@@ -57,8 +57,8 @@ IndeterminateBar.on('done', function() {
 #### `change`
 
 ```js
-IndeterminateBar.on('indeterminate', function() {
-  console.log('the progress bar changed to indetermined');
+IndeterminateBar.on('change', function() {
+  console.log('the progress bar changed to indeterminate');
 })
 ```
 
