@@ -44,14 +44,40 @@
     return elem.offsetWidth / pa.offsetWidth;
 	}
 
-	var IndeterminateBar = {
-		isStarted: false,
-		isIndeterminate: false,
+	/**
+	 * Manages Events
+	 * @type {Object}
+	 */
+	var EventManager = {
 		events: {
 			'start': [],
 			'done': [],
-			'indeterminate': []
+			'change': []
 		},
+		exists: function( eventName ) {
+			return Object.keys( EventManager.events ).indexOf( eventName ) !== -1
+		},
+		callEvents: function( eventName ) {
+			if ( !EventManager.exists( eventName ) ) return
+			EventManager.events[ eventName ].forEach( event => event() )
+		},
+		register: function( eventName, callback ) {
+			if ( !EventManager.exists( eventName ) ) return
+			EventManager.events[ eventName ].push( callback )
+		},
+		deregister: function( eventName, callback ) {
+			var id = EventManager.events[ eventName ].indexOf( callback )
+			if (id !== -1) EventManager.events[ eventName ].splice(id, 1)
+		}
+	}
+
+	/**
+	 * IndeterminateBar
+	 * @type {Object}
+	 */
+	var IndeterminateBar = {
+		isStarted: false,
+		isIndeterminate: false,
 		config: {
 			parent: 'progress-container',
 			duration: 10
@@ -69,6 +95,7 @@
 
 		if (IndeterminateBar.isStarted) {
 			subline.style.animation = 'load ' + IndeterminateBar.config.duration + 's'
+			IndeterminateBar.isIndeterminate = false
 		}
 		
 		slider.remove();
@@ -92,7 +119,7 @@
 			if (percent > 0.999) {
 				if (!IndeterminateBar.isIndeterminate) {
 					IndeterminateBar.isIndeterminate = true
-					IndeterminateBar.events['indeterminate'].forEach( event => event() )
+					EventManager.callEvents( 'change' )
 				}
 
 				slider.appendChild(subline2);
@@ -104,7 +131,7 @@
 			}
 		}, 500)
 
-		IndeterminateBar.events['start'].forEach( event => event() )
+		EventManager.callEvents( 'start' )
 	}
 
 	/**
@@ -114,6 +141,7 @@
 		if ( !IndeterminateBar.isStarted ) return;
 
 		IndeterminateBar.isStarted = false
+		IndeterminateBar.isIndeterminate = false
 
 		clearInterval( progressIntervalID )
 		subline2.remove();
@@ -121,7 +149,7 @@
 		subline.style.animation = ''
 		subline.style.width = '100%'
 
-		IndeterminateBar.events['done'].forEach( event => event() )
+		EventManager.callEvents( 'done' )
 	}
 
 	/**
@@ -130,7 +158,7 @@
 	 * @param  {Function} callback Event function to be executed
 	 */
 	IndeterminateBar.on = function(event, callback) {
-		IndeterminateBar.events[event].push(callback)
+		EventManager.register( event, callback )
 	}
 
 	return IndeterminateBar
