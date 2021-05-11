@@ -1,7 +1,9 @@
 # Indeterminate Bar
 
-An indeterminate progress bar that shows a loading bar that changes to an
-indeterminate progress once it reaches the 100%.
+An indetermined progress bar that starts as a loading bar and then gets updated
+to an indeterminate progress bar once it reaches 100%
+
+You can check an example [here](https://erremauro.github.io/indeterminate-bar/)
 
 ## Installation
 
