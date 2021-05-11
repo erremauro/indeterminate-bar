@@ -1,9 +1,12 @@
-# Indeterminate Bar
+# IndeterminateBar
 
-An indetermined progress bar that starts as a loading bar and then gets updated
-to an indeterminate progress bar once it reaches 100%
+The _close elevator door_ button of progress bars!
 
-You can check an example [here](https://erremauro.github.io/indeterminate-bar/)
+**IndeterminateBar** is a lightweight progress bar that looks like a standard 
+loading bar for the specified duration until it reaches 100% and then gets 
+updated to an indeterminate bar.
+
+See it in action [here](https://erremauro.github.io/indeterminate-bar/)
 
 ## Installation
 
@@ -23,8 +26,8 @@ IndeterminateBar.start();
 IndeterminateBar.done();
 ```
 
-You can check if the progress bar is started of if the indeterminate mode is
-active.
+You can check if the progress bar is started or if the indeterminate mode is
+active using `isStarted` and `isIndeterminate` flags.
 
 ```js
 if ( IndeterminateBar.isStarted ) console.log('Progress bar is started')
