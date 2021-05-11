@@ -25,7 +25,7 @@ IndeterminateBar.done();
 
 ## Events
 
-You can register to the following events.
+You can register for the following events.
 
 #### `start`
 
@@ -43,7 +43,7 @@ IndeterminateBar.on('done', function() {
 })
 ```
 
-#### `indeterminate`
+#### `change`
 
 ```js
 IndeterminateBar.on('indeterminate', function() {
@@ -52,6 +52,16 @@ IndeterminateBar.on('indeterminate', function() {
 ```
 
 ## Configurations
+
+#### `color`
+
+Customize the bar color.
+
+```js
+IndeterminateBar.configure({
+  color: 'red'
+})
+```
 
 #### `duration`
 

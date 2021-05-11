@@ -83,6 +83,18 @@
 	}
 
 	/**
+	 * Update the color informations for the IndirectBar HTML elements
+	 * @param  {string} color Color string
+	 */
+	function updateComponentColor(color) {
+		line.style.backgroundColor = color;
+		subline.style.backgroundColor = color;
+		subline.style.boxShadow = "0 0 10px " + color + ", 0 0 5px " + color
+		subline2.style.boxShadow = "0 0 10px " + color + ", 0 0 5px " + color
+		subline2.style.backgroundColor = color;
+	}
+
+	/**
 	 * Manages Events
 	 * @type {Object}
 	 */
@@ -118,6 +130,7 @@
 		isIndeterminate: false,
 		config: {
 			parent: 'progress-container',
+			color: '#65ca02',
 			duration: 10
 		}
 	}
@@ -135,6 +148,8 @@
 			subline.style.animation = 'load ' + IndeterminateBar.config.duration + 's'
 			IndeterminateBar.isIndeterminate = false
 		}
+
+		updateComponentColor(IndeterminateBar.config.color);
 		
 		slider.remove();
 		parent.appendChild(slider);
