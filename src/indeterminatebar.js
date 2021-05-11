@@ -126,6 +126,7 @@
 	 * @type {Object}
 	 */
 	var IndeterminateBar = {
+		version: '0.1.0',
 		isStarted: false,
 		isIndeterminate: false,
 		config: {
