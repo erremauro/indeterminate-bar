@@ -23,6 +23,14 @@ IndeterminateBar.start();
 IndeterminateBar.done();
 ```
 
+You can check if the progress bar is started of if the indeterminate mode is
+active.
+
+```js
+if ( IndeterminateBar.isStarted ) console.log('Progress bar is started')
+if ( IndeterminateBar.isIndeterminate ) console.log('Indeterminate mode active')
+````
+
 ## Events
 
 You can register for the following events.
