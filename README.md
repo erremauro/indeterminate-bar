@@ -36,7 +36,7 @@ if ( IndeterminateBar.isStarted() ) console.log('Progress bar is started')
 if ( IndeterminateBar.isIndeterminate() ) console.log('Indeterminate mode active')
 ```
 
-Is also possible to check if the bar was removed from the DOM using:
+It is also possible to check if the bar was removed from the DOM using:
 
 ```js
 IndeterminateBar.isRemoved()
