@@ -6,7 +6,6 @@
   } else {
     root.IndeterminateBar = factory();
   }
-	
 })(this, function() {
 
 	/**
@@ -122,13 +121,21 @@
 	}
 
 	/**
+	 * Controls the IndeterminateBar states
+	 * @type {Object}
+	 */
+	var state = {
+		removed: true,
+		started: false,
+		indeterminate: false
+	}
+
+	/**
 	 * IndeterminateBar
 	 * @type {Object}
 	 */
 	var IndeterminateBar = {
-		version: '0.1.1',
-		isStarted: false,
-		isIndeterminate: false,
+		version: '1.0.0',
 		config: {
 			parent: 'progress-container',
 			color: '#65ca02',
@@ -143,44 +150,50 @@
 	IndeterminateBar.configure = function(opts) {
 		IndeterminateBar.config = Object.assign( IndeterminateBar.config, opts, {} )
 		
-		const parent = document.getElementById( IndeterminateBar.config.parent )
-
-		if (IndeterminateBar.isStarted) {
+		// if the user tries to reconfigure the component while it's started
+		// we "restart" it, by resetting its state
+		if ( IndeterminateBar.isStarted() ) {
 			subline.style.animation = 'load ' + IndeterminateBar.config.duration + 's'
-			IndeterminateBar.isIndeterminate = false
+			state.indeterminate = false
 			EventManager.callEvents( 'start' )
 		}
 
-		updateComponentColor(IndeterminateBar.config.color);
-		
-		slider.remove();
-		parent.appendChild(slider);
+		updateComponentColor( IndeterminateBar.config.color )
+		IndeterminateBar.create()
 	}
 
 	/**
 	 * Start the progress bar. When the loading bar reaches the 100%
-	 * the bar is updated to an undetermined bar.
+	 * the bar is updated to an indetermined bar.
 	 */
 	IndeterminateBar.start = function() {
-		if (IndeterminateBar.isStarted) return;
+		if ( IndeterminateBar.isStarted() ) return;
+		if ( IndeterminateBar.isRemoved() ) {
+			console.error(
+				'[IndeterminateBar] You are trying to start a removed progress bar! ' +
+				'Use IndeterminateBar.create() to re-inject the bar into the DOM. ' +
+				'Also reconfiguring the bar will recreate it.'
+			)
+			return
+		}
 
-		IndeterminateBar.isStarted = true;
+		state.started = true;
 		subline.style.animation = 'load ' + IndeterminateBar.config.duration + 's'
-		subline.classList.add('load');		
+		subline.classList.add( 'load' )	
 
 		progressIntervalID = setInterval(function() {
 			const percent = getWidthPercent( subline )
 
 			if (percent > 0.999) {
-				if (!IndeterminateBar.isIndeterminate) {
-					IndeterminateBar.isIndeterminate = true
+				if ( !IndeterminateBar.isIndeterminate() ) {
+					state.indeterminate = true
 					EventManager.callEvents( 'change' )
 				}
 
 				slider.appendChild(subline2);
 				subline.style.animation = '';
-				subline.classList.remove('load');
-				subline.classList.add('inc');
+				subline.classList.remove( 'load' )
+				subline.classList.add( 'inc' )
 				
 				clearInterval( progressIntervalID );
 			}
@@ -193,19 +206,46 @@
 	 * Set the progress to 100% and stop.
 	 */
 	IndeterminateBar.done = function() {
-		if ( !IndeterminateBar.isStarted ) return;
+		if ( !IndeterminateBar.isStarted() ) return;
 
-		IndeterminateBar.isStarted = false
-		IndeterminateBar.isIndeterminate = false
+		state.started = false
+		state.indeterminate = false
 
 		clearInterval( progressIntervalID )
 		subline2.remove();
 		subline.classList.remove( 'inc' )
 		subline.style.animation = ''
-		subline.style.width = '100%'
+		subline.style.width = '100%' 
 
 		EventManager.callEvents( 'done' )
 	}
+
+	/**
+	 * Create the IndeterminateBar in the DOM
+	 */
+	IndeterminateBar.create = function() {
+		if ( !IndeterminateBar.isRemoved() ) return
+
+		const parent = document.getElementById( IndeterminateBar.config.parent )
+		
+		slider.remove()	
+		parent.appendChild(slider)
+		state.removed = false
+	}
+
+	/**
+	 * Removes the IndeterminateBar from the DOM
+	 */
+	IndeterminateBar.remove = function() {
+		if ( IndeterminateBar.isRemoved() ) return
+
+		slider.remove()
+		state.removed = true
+	}
+
+	IndeterminateBar.isStarted = function() { return state.started }
+	IndeterminateBar.isIndeterminate = function() { return state.indeterminate }
+	IndeterminateBar.isRemoved = function() { return state.removed }
 
 	/**
 	 * Register events

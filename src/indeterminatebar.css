@@ -19,7 +19,8 @@
   background:#65ca02;
   height:8px;
   box-shadow: 0 0 10px #65ca02, 0 0 5px #65ca02;
-  transition: width 5s;
+  transition: width 1s;
+  width: 0%;
 }
 
 .load {
