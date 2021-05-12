@@ -35,7 +35,7 @@
 	////////////////////////////////////////////////////////////////////////////
 
 	function onStart() {
-		if ( IndeterminateBar.isStarted ) return
+		if ( IndeterminateBar.isStarted() ) return
 
 		IndeterminateBar.start();
 		Stopwatch.start();
@@ -45,7 +45,7 @@
 	}
 
 	function onStop() {
-		if ( !IndeterminateBar.isStarted ) return
+		if ( !IndeterminateBar.isStarted() ) return
 			
 		IndeterminateBar.done();
 		updateElapsedLabel();
@@ -59,7 +59,7 @@
 	}
 
 	function updateElapsedLabel() {
-		elapsedLabel.innerHTML = IndeterminateBar.isStarted
+		elapsedLabel.innerHTML = IndeterminateBar.isStarted()
 			? 'Elapsed Time: ' + Stopwatch.getElapsedTime()
 			: 'Done in ' + Stopwatch.getTime()
 	}
