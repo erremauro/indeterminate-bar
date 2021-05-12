@@ -26,13 +26,32 @@ IndeterminateBar.start();
 IndeterminateBar.done();
 ```
 
+### State
+
 You can check if the progress bar is started or if the indeterminate mode is
-active using `isStarted` and `isIndeterminate` flags.
+active using `isStarted` and `isIndeterminate` functions.
 
 ```js
-if ( IndeterminateBar.isStarted ) console.log('Progress bar is started')
-if ( IndeterminateBar.isIndeterminate ) console.log('Indeterminate mode active')
+if ( IndeterminateBar.isStarted() ) console.log('Progress bar is started')
+if ( IndeterminateBar.isIndeterminate() ) console.log('Indeterminate mode active')
+```
+
+Is also possible to check if the bar was removed from the DOM using:
+
+```js
+IndeterminateBar.isRemoved()
 ````
+
+### Removal
+
+You can remove the progress bar from the DOM using the `remove` function.
+
+```js
+IndeterminateBar.remove()
+```
+
+If for any reason you need to add the progress bar again, you can use the
+`create` function or simply just call `configure` again.
 
 ## Events
 
