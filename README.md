@@ -105,10 +105,10 @@ IndeterminateBar.configure({
 
 #### `parent`
 
-Specify the progress bar container ID.
+Specify the progress bar container.
 
 ```js
 IndeterminateBar.configure({
-  parent: 'my-container'
+  parent: '#my-container'
 })
 ```
