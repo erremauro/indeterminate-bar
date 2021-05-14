@@ -1,19 +1,23 @@
-(function(document) {
+(function( document ) {
 
 	// Get the HTML elements in scope
-	var startBtn = document.getElementById( 'start-btn' );
-	var stopBtn = document.getElementById( 'stop-btn' );
-	var durationInput = document.getElementById( 'duration' );
-	var elapsedLabel = document.getElementById( 'elapsed-time' );
-	var progressLabel = document.getElementById( 'progress-label' );
+	var startBtn = document.getElementById( 'start-btn' )
+	var stopBtn = document.getElementById( 'stop-btn' )
+	var durationInput = document.getElementById( 'duration' )
+	var elapsedLabel = document.getElementById( 'elapsed-time' )
+	var progressLabel = document.getElementById( 'progress-label' )
+	var versionLabel = document.getElementById( 'version' )
 
 	// setInterval ID used to cancel the Elapsed Time update
-	var timerIntervalID = null;
+	var timerIntervalID = null
+
+	// Set the version label in the page footer
+	versionLabel.innerHTML = 'v' + IndeterminateBar.version
 
 	IndeterminateBar.configure({ 
-		parent: 'progress-bar',
+		parent: '#progress-bar',
 		duration: durationInput.value
-	});
+	})
 
 	IndeterminateBar.on('start', function() {
 		setProgressLabel( 'Processing file...' )
@@ -28,33 +32,33 @@
 	})
 
 	// Listen to button click and input change events
-	startBtn.addEventListener( 'click', onStart);
-	stopBtn.addEventListener( 'click', onStop);
-	durationInput.addEventListener( 'change', onChange);
+	startBtn.addEventListener( 'click', onStart)
+	stopBtn.addEventListener( 'click', onStop)
+	durationInput.addEventListener( 'change', onChange)
 
 	////////////////////////////////////////////////////////////////////////////
 
 	function onStart() {
 		if ( IndeterminateBar.isStarted() ) return
 
-		IndeterminateBar.start();
-		Stopwatch.start();
+		IndeterminateBar.start()
+		Stopwatch.start()
 
-		updateElapsedLabel();
-		timerIntervalID = setInterval( updateElapsedLabel, 1000 );
+		updateElapsedLabel()
+		timerIntervalID = setInterval( updateElapsedLabel, 1000 )
 	}
 
 	function onStop() {
 		if ( !IndeterminateBar.isStarted() ) return
 			
-		IndeterminateBar.done();
-		updateElapsedLabel();
-		clearInterval( timerIntervalID );
+		IndeterminateBar.done()
+		updateElapsedLabel()
+		clearInterval( timerIntervalID )
 	}	
 
 	function onChange() {
-		Stopwatch.reset();
-		updateElapsedLabel();
+		Stopwatch.reset()
+		updateElapsedLabel()
 		IndeterminateBar.configure({ duration: durationInput.value })
 	}
 
