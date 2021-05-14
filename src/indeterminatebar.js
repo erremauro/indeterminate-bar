@@ -1,10 +1,10 @@
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
-    define(factory);
+    define(factory)
   } else if (typeof exports === 'object') {
-    module.exports = factory();
+    module.exports = factory()
   } else {
-    root.IndeterminateBar = factory();
+    root.IndeterminateBar = factory()
   }
 })(this, function() {
 
@@ -16,40 +16,73 @@
 		  // Must be writable: true, enumerable: false, configurable: true
 		  Object.defineProperty(Object, "assign", {
 		    value: function assign(target, varArgs) { // .length of function is 2
-		      'use strict';
+		      'use strict'
 		      if (target === null || target === undefined) {
-		        throw new TypeError('Cannot convert undefined or null to object');
+		        throw new TypeError('Cannot convert undefined or null to object')
 		      }
 
-		      var to = Object(target);
+		      var to = Object(target)
 
 		      for (var index = 1; index < arguments.length; index++) {
-		        var nextSource = arguments[index];
+		        var nextSource = arguments[index]
 
 		        if (nextSource !== null && nextSource !== undefined) { 
 		          for (var nextKey in nextSource) {
 		            // Avoid bugs when hasOwnProperty is shadowed
 		            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-		              to[nextKey] = nextSource[nextKey];
+		              to[nextKey] = nextSource[nextKey]
 		            }
 		          }
 		        }
 		      }
-		      return to;
+		      return to
 		    },
 		    writable: true,
 		    configurable: true
-		  });
+		  })
 		}
 
 		// Create Element.remove() function if not exist in the browser
-		if (!('remove' in Element.prototype)) {
-		    Element.prototype.remove = function() {
-		        if (this.parentNode) {
-		            this.parentNode.removeChild(this);
-		        }
-		    };
+		if ( !('remove' in Element.prototype) ) {
+	    Element.prototype.remove = function() {
+        if ( this.parentNode ) {
+          this.parentNode.removeChild( this )
+        }
+	    }
 		}
+
+		// Add prepend support for IE11 and Edge
+		(function ( arr ) {
+		  arr.forEach(function ( item ) {
+		    if ( item.hasOwnProperty( 'prepend' ) ) {
+		      return
+		    }
+		    Object.defineProperty( item, 'prepend', {
+		      configurable: true,
+		      enumerable: true,
+		      writable: true,
+		      value: function prepend() {
+		        var argArr = Array.prototype.slice.call( arguments ),
+		          docFrag = document.createDocumentFragment()
+
+		        argArr.forEach(function ( argItem ) {
+		          var isNode = argItem instanceof Node
+		          docFrag.appendChild( 
+		          	isNode 
+		          		? argItem 
+		          		: document.createTextNode( String( argItem ) )
+	          		)
+		        })
+
+		        this.insertBefore( docFrag, this.firstChild )
+		      }
+		    })
+		  })
+		})([
+			Element.prototype, 
+			Document.prototype, 
+			DocumentFragment.prototype
+		])
 	}
 
 	createPolyfills()
@@ -58,18 +91,18 @@
 	var progressIntervalID = null
 
 	// Prepares the HTML dom elements for the progress bar
-	var slider = document.createElement('div');
-	var line = document.createElement('div');
-	var subline = document.createElement('div');
-	var subline2 = document.createElement('div');
+	var slider = document.createElement('div')
+	var line = document.createElement('div')
+	var subline = document.createElement('div')
+	var subline2 = document.createElement('div')
 
-	slider.className = 'slider';
-	line.className = 'line';
-	subline.className = 'subline';
-	subline2.className = 'subline';
+	slider.className = 'slider'
+	line.className = 'line'
+	subline.className = 'subline'
+	subline2.className = 'subline'
 
-	slider.appendChild(line);
-	slider.appendChild(subline);
+	slider.appendChild(line)
+	slider.appendChild(subline)
 
 	/**
 	 * Get the width percent related to its parent for a given HTML element
@@ -77,8 +110,8 @@
 	 * @return {number} - Width percent related to its parent
 	 */
 	function getWidthPercent(elem) {
-    var pa = elem.offsetParent || elem;
-    return elem.offsetWidth / pa.offsetWidth;
+    var pa = elem.offsetParent || elem
+    return elem.offsetWidth / pa.offsetWidth
 	}
 
 	/**
@@ -86,11 +119,11 @@
 	 * @param  {string} color Color string
 	 */
 	function updateComponentColor(color) {
-		line.style.backgroundColor = color;
-		subline.style.backgroundColor = color;
+		line.style.backgroundColor = color
+		subline.style.backgroundColor = color
 		subline.style.boxShadow = "0 0 10px " + color + ", 0 0 5px " + color
 		subline2.style.boxShadow = "0 0 10px " + color + ", 0 0 5px " + color
-		subline2.style.backgroundColor = color;
+		subline2.style.backgroundColor = color
 	}
 
 	/**
@@ -135,9 +168,9 @@
 	 * @type {Object}
 	 */
 	var IndeterminateBar = {
-		version: '1.0.0',
+		version: '1.1.0',
 		config: {
-			parent: 'progress-container',
+			parent: 'body',
 			color: '#65ca02',
 			duration: 10
 		}
@@ -167,7 +200,7 @@
 	 * the bar is updated to an indetermined bar.
 	 */
 	IndeterminateBar.start = function() {
-		if ( IndeterminateBar.isStarted() ) return;
+		if ( IndeterminateBar.isStarted() ) return
 		if ( IndeterminateBar.isRemoved() ) {
 			console.error(
 				'[IndeterminateBar] You are trying to start a removed progress bar! ' +
@@ -177,12 +210,12 @@
 			return
 		}
 
-		state.started = true;
+		state.started = true
 		subline.style.animation = 'load ' + IndeterminateBar.config.duration + 's'
 		subline.classList.add( 'load' )	
 
 		progressIntervalID = setInterval(function() {
-			const percent = getWidthPercent( subline )
+			var percent = getWidthPercent( subline )
 
 			if (percent > 0.999) {
 				if ( !IndeterminateBar.isIndeterminate() ) {
@@ -190,12 +223,12 @@
 					EventManager.callEvents( 'change' )
 				}
 
-				slider.appendChild(subline2);
-				subline.style.animation = '';
+				slider.appendChild(subline2)
+				subline.style.animation = ''
 				subline.classList.remove( 'load' )
 				subline.classList.add( 'inc' )
 				
-				clearInterval( progressIntervalID );
+				clearInterval( progressIntervalID )
 			}
 		}, 500)
 
@@ -206,13 +239,13 @@
 	 * Set the progress to 100% and stop.
 	 */
 	IndeterminateBar.done = function() {
-		if ( !IndeterminateBar.isStarted() ) return;
+		if ( !IndeterminateBar.isStarted() ) return
 
 		state.started = false
 		state.indeterminate = false
 
 		clearInterval( progressIntervalID )
-		subline2.remove();
+		subline2.remove()
 		subline.classList.remove( 'inc' )
 		subline.style.animation = ''
 		subline.style.width = '100%' 
@@ -226,10 +259,18 @@
 	IndeterminateBar.create = function() {
 		if ( !IndeterminateBar.isRemoved() ) return
 
-		const parent = document.getElementById( IndeterminateBar.config.parent )
+		var parent = document.querySelectorAll( IndeterminateBar.config.parent )[0]
+
+		if ( !parent ) {
+			console.error(
+				'[IndeterminateBar] Unable to find the progress bar container "' + 
+				IndeterminateBar.config.parent + '"'
+			)
+			return
+		}
 		
 		slider.remove()	
-		parent.appendChild(slider)
+		parent.prepend( slider )
 		state.removed = false
 	}
 
